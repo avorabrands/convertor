@@ -1,0 +1,43 @@
+{
+  "name": "convertly",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "assets": "node scripts/copy-assets.mjs",
+    "predev": "npm run assets",
+    "dev": "next dev -p 4321",
+    "prebuild": "npm run assets",
+    "build": "next build",
+    "start": "next start -p 4321",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@breezystack/lamejs": "^1.2.7",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource/caladea": "^5.3.0",
+    "@fontsource/carlito": "^5.3.0",
+    "@fontsource/cousine": "^5.3.0",
+    "@fontsource/tinos": "^5.3.0",
+    "@pdf-lib/fontkit": "^1.1.1",
+    "@tesseract.js-data/eng": "^1.0.0",
+    "docx": "^9.16.0",
+    "fflate": "^0.8.3",
+    "lucide-react": "^1.80.0",
+    "mammoth": "^1.13.0",
+    "next": "^16.4.6",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.5.438",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tesseract.js": "^7.0.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^22.20.7",
+    "@types/react": "^19.3.3",
+    "@types/react-dom": "^19.3.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "5.9"
+  }
+}

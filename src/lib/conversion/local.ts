@@ -1,0 +1,40 @@
+import type { ConversionProvider, Engine } from "./types";
+import { ConversionError } from "./types";
+
+type Loader = () => Promise<Engine>;
+
+/** Each engine loads only when someone uses its tool, so pages stay light. */
+const engines: Record<string, Loader> = {
+  "pdf-to-word": () => import("./engines/pdf-read").then((m) => m.pdfToWord),
+  "pdf-to-text": () => import("./engines/pdf-read").then((m) => m.pdfToText),
+  "pdf-to-jpg": () => import("./engines/pdf-read").then((m) => m.pdfToImages),
+  "merge-pdf": () => import("./engines/pdf-edit").then((m) => m.mergePdf),
+  "split-pdf": () => import("./engines/pdf-edit").then((m) => m.splitPdf),
+  "rotate-pdf": () => import("./engines/pdf-edit").then((m) => m.rotatePdf),
+  "jpg-to-pdf": () => import("./engines/pdf-edit").then((m) => m.imagesToPdf),
+  "compress-pdf": () => import("./engines/reduce").then((m) => m.reduceFile),
+  "file-size-reducer": () => import("./engines/reduce").then((m) => m.reduceFile),
+  "ppt-to-pdf": () => import("./engines/pptx").then((m) => m.pptToPdf),
+  "word-to-pdf": () => import("./engines/word").then((m) => m.wordToPdf),
+  "word-to-text": () => import("./engines/word").then((m) => m.wordToText),
+  "excel-to-pdf": () => import("./engines/sheets").then((m) => m.sheetToPdf),
+  "spreadsheet-converter": () => import("./engines/sheets").then((m) => m.convertSheet),
+  ocr: () => import("./engines/ocr").then((m) => m.ocr),
+  "image-converter": () => import("./engines/images").then((m) => m.convertImage),
+  "audio-converter": () => import("./engines/audio").then((m) => m.convertAudio),
+  "video-converter": () => import("./engines/audio").then((m) => m.convertAudio),
+  "zip-extractor": () => import("./engines/zip").then((m) => m.extractZip),
+  "create-zip": () => import("./engines/zip").then((m) => m.createZip),
+};
+
+/** Runs conversions in the browser. Files never leave the device. */
+export const localProvider: ConversionProvider = {
+  async convert(request, handlers) {
+    const load = engines[request.toolSlug];
+    if (!load) throw new ConversionError("This tool isn't ready yet.");
+    handlers.onProgress(0.02);
+    const engine = await load();
+    handlers.signal.throwIfAborted();
+    return engine(request, handlers);
+  },
+};

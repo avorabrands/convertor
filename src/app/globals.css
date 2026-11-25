@@ -1,0 +1,111 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  color-scheme: light;
+  --canvas: #f8f8f5;
+  --surface: #ffffff;
+  --sunken: #f2f2f4;
+  --ink: #141a3c;
+  --muted: #555c7d;
+  --line: #e3e4ec;
+  --line-strong: #c4c7da;
+  --control: #868ba8;
+  --primary: #3d48d3;
+  --primary-hover: #313bb4;
+  --on-primary: #ffffff;
+  --primary-soft: #edeefc;
+  --primary-ink: #2f39ae;
+  --violet: #7350cf;
+  --violet-soft: #f2eefc;
+  --violet-ink: #5b3bb0;
+  --success: #14794a;
+  --success-soft: #e6f4ec;
+  --danger: #b0233e;
+  --danger-soft: #fcedf0;
+  --shadow-color: 20 26 60;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #0f1329;
+  --surface: #171c38;
+  --sunken: #121731;
+  --ink: #eef0fb;
+  --muted: #adb3d1;
+  --line: #2a3157;
+  --line-strong: #434b7a;
+  --control: #7780ad;
+  --primary: #939cff;
+  --primary-hover: #abb2ff;
+  --on-primary: #10142b;
+  --primary-soft: #232a56;
+  --primary-ink: #b9bfff;
+  --violet: #b69bff;
+  --violet-soft: #2b2453;
+  --violet-ink: #cbb8ff;
+  --success: #5fd39b;
+  --success-soft: #14352c;
+  --danger: #ff93a6;
+  --danger-soft: #3d1d2f;
+  --shadow-color: 0 0 0;
+}
+
+@theme inline {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-control: var(--control);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-ink: var(--primary-ink);
+  --color-violet: var(--violet);
+  --color-violet-soft: var(--violet-soft);
+  --color-violet-ink: var(--violet-ink);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --radius-card: 18px;
+  --shadow-card: 0 1px 2px rgb(var(--shadow-color) / 0.04), 0 4px 16px rgb(var(--shadow-color) / 0.04);
+  --shadow-lift: 0 2px 4px rgb(var(--shadow-color) / 0.05), 0 12px 32px rgb(var(--shadow-color) / 0.1);
+}
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  body { background: var(--canvas); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { text-wrap: balance; letter-spacing: -0.02em; }
+  h1 { letter-spacing: -0.035em; }
+  p { text-wrap: pretty; }
+  button:not(:disabled), [role="button"], summary { cursor: pointer; }
+  :focus-visible { outline: 2.5px solid var(--primary); outline-offset: 2px; }
+  ::selection { background: color-mix(in srgb, var(--primary) 25%, transparent); }
+}
+
+@utility shell { width: 100%; max-width: 72rem; margin-inline: auto; padding-inline: 1.25rem; @media (width >= 40rem) { padding-inline: 2rem; } }
+
+.skeleton { background: linear-gradient(90deg, var(--line) 25%, var(--sunken) 50%, var(--line) 75%); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; border-radius: 8px; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+.sheet-out { animation: sheet-in 0.32s cubic-bezier(0.2, 0.8, 0.2, 1); }
+@keyframes sheet-in { from { opacity: 0; transform: translateX(-10px); } }
+
+.toast-in { animation: toast-in 0.2s ease-out; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } }
+
+dialog.modal { margin: auto; }
+dialog.modal::backdrop { background: rgb(13 17 41 / 0.5); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, ::before, ::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
