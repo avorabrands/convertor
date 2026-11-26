@@ -42,7 +42,7 @@ Not built: accounts and share links. Their buttons explain that.
 
 Each tool has its own page at `/<slug>`, such as `/pdf-to-word`; old `/convert/<slug>` links redirect. `sitemap.xml`, `robots.txt`, share images and structured data are generated at build time from `NEXT_PUBLIC_SITE_URL`.
 
-Set these in Vercel (Project, Settings, Environment Variables), then redeploy:
+The live address is https://convertly.avorabrands.in, the default in `src/config/site.ts`. To use a different address without changing code, set these in Vercel (Project, Settings, Environment Variables), then redeploy:
 
 | Variable | Subdomain, e.g. tools.avorabrands.in | Folder, e.g. www.avorabrands.in/convert |
 |---|---|---|

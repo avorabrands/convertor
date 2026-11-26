@@ -6,7 +6,7 @@
  * (for example www.avorabrands.in/convert), also set NEXT_PUBLIC_BASE_PATH to "/convert".
  */
 const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
-const url = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://convertor-jade-nine.vercel.app").replace(/\/$/, "");
+const url = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://convertly.avorabrands.in").replace(/\/$/, "");
 
 export const site = {
   name: "Avora Convertly",
