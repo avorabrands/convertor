@@ -16,7 +16,7 @@ export function Footer() {
       <div className="shell grid gap-8 py-12 md:grid-cols-[1fr_auto] md:items-start">
         <div>
           <Logo />
-          <p className="mt-3 max-w-sm text-[0.9375rem] leading-relaxed text-muted">A file converter for coursework that shows you exactly what each tool can do.</p>
+          <p className="mt-3 max-w-sm text-[0.9375rem] leading-relaxed text-muted">Free file converter tools for students, by <a href={site.company.url} className="font-semibold text-primary-ink underline-offset-4 hover:underline">{site.company.name}</a>.</p>
         </div>
         <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-1">
           {links.map((l) => <Link key={l.href} href={l.href} className="py-2 text-[0.9375rem] font-medium text-muted hover:text-primary-ink">{l.label}</Link>)}

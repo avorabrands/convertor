@@ -1,8 +1,9 @@
 import type { PDFDocumentProxy } from "pdfjs-dist";
+import { asset } from "@/config/site";
 
 export async function openPdf(file: Blob): Promise<PDFDocumentProxy> {
   const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-  const base = `${location.origin}/vendor/pdfjs`;
+  const base = `${location.origin}${asset("/vendor/pdfjs")}`;
   pdfjs.GlobalWorkerOptions.workerSrc = `${base}/pdf.worker.min.mjs`;
   return pdfjs.getDocument({
     data: new Uint8Array(await file.arrayBuffer()),

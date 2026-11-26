@@ -2,6 +2,7 @@ import {
   beginText, concatTransformationMatrix, drawObject, endText, PDFDocument, PDFRawStream, popGraphicsState, pushGraphicsState, setCharacterSqueeze, setFontAndSize, setTextMatrix,
   setTextRenderingMode, showText, TextRenderingMode, type PDFFont, type PDFPage,
 } from "pdf-lib";
+import { asset } from "@/config/site";
 import { baseOf } from "@/lib/files";
 import { ConversionError, type Engine } from "../../types";
 import { breathe, canvasBlob, fitScale, PDF_MIME, toBlob } from "../util";
@@ -131,7 +132,7 @@ async function hiddenFont(doc: PDFDocument): Promise<{ font: PDFFont; has: Set<n
   try {
     const { default: fontkit } = await import("@pdf-lib/fontkit");
     doc.registerFontkit(fontkit);
-    const res = await fetch("/vendor/pdfjs/standard_fonts/LiberationSans-Regular.ttf");
+    const res = await fetch(asset("/vendor/pdfjs/standard_fonts/LiberationSans-Regular.ttf"));
     if (!res.ok) return null;
     const font = await doc.embedFont(await res.arrayBuffer(), { subset: true });
     return { font, has: new Set(font.getCharacterSet()) };

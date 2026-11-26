@@ -1,4 +1,4 @@
-# Convertly
+# Avora Convertly
 
 A file converter for students. Next.js (App Router), TypeScript, Tailwind CSS v4. Conversions run in the browser; there is no backend.
 
@@ -16,7 +16,9 @@ npm run build && npm start
 
 | Path | What |
 |---|---|
-| `src/config/site.ts` | Product name, description, contact email. Rename here (the logo mark is in `Logo.tsx` and `app/icon.svg`). |
+| `src/config/site.ts` | Product name, company, web address, contact email. Rename here (the logo mark is in `Logo.tsx` and `app/icon.svg`). |
+| `src/lib/tools/content.ts` | Search-page copy for each tool: title, description, uses and FAQs |
+| `src/lib/seo.ts` | Page metadata, structured data and shared FAQs |
 | `src/app/globals.css` | Design tokens, light and dark |
 | `src/lib/tools/registry.ts` | Every tool: formats, limits, options, support level |
 | `src/lib/files.ts` | Validation and the error messages for wrong files |
@@ -35,6 +37,19 @@ npm run build && npm start
 PPT to PDF (`engines/pptx/`) draws each slide on a canvas, so any script the device has fonts for works, and adds an invisible text layer for search. Covered: themes, masters, placeholders, about 80 preset shapes, freeforms, pictures, tables, SmartArt drawings, and bar, column, line, area, pie, doughnut and scatter charts. Not covered: animations, 3D, reflections and glows, EMF and WMF pictures, text columns, and other chart types (marked on the slide). Calibri, Cambria, Times and Courier use open fonts with matching widths.
 
 Not built: accounts and share links. Their buttons explain that.
+
+## Web address and SEO
+
+Each tool has its own page at `/<slug>`, such as `/pdf-to-word`; old `/convert/<slug>` links redirect. `sitemap.xml`, `robots.txt`, share images and structured data are generated at build time from `NEXT_PUBLIC_SITE_URL`.
+
+Set these in Vercel (Project, Settings, Environment Variables), then redeploy:
+
+| Variable | Subdomain, e.g. tools.avorabrands.in | Folder, e.g. www.avorabrands.in/convert |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | `https://tools.avorabrands.in` | `https://www.avorabrands.in` |
+| `NEXT_PUBLIC_BASE_PATH` | (leave unset) | `/convert` |
+
+A folder also needs a rewrite in the main site's `vercel.json` that sends `/convert/:path*` to this project, and its `robots.txt` should list `/convert/sitemap.xml`.
 
 ## Connect a backend
 

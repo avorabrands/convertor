@@ -3,9 +3,10 @@ import { Steps } from "@/components/home/Steps";
 import { SupportLegend } from "@/components/tools/SupportLegend";
 import { ButtonLink } from "@/components/ui/Button";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { pageMetadata } from "@/lib/seo";
 import { tools } from "@/lib/tools/registry";
 
-export const metadata: Metadata = { title: "How it works", description: "Three steps, and what happens to your file along the way." };
+export const metadata: Metadata = pageMetadata({ title: "How It Works", description: "Convert files in three steps, right in your browser. See what happens to your file and the limits up front.", path: "/how-it-works" });
 
 export default function HowItWorks() {
   const sizes = tools.map((t) => t.maxMB);

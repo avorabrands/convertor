@@ -1,3 +1,5 @@
+import { asset } from "@/config/site";
+
 /** Open fonts whose letter widths match common Office fonts. */
 const families: Record<string, { file: string; css: string }> = {
   carlito: { file: "carlito", css: "Convertly Carlito" },
@@ -44,8 +46,8 @@ export async function loadFonts(names: Iterable<string>) {
     const { file, css } = families[key];
     for (const weight of [400, 700]) for (const style of ["normal", "italic"]) {
       const sources = file
-        ? Object.entries(ranges).filter(([r]) => !(file === "caladea" && r === "greek")).map(([r, unicodeRange]) => ({ url: `/vendor/fonts/${file}-${r}-${weight}-${style}.woff2`, unicodeRange }))
-        : [{ url: `/vendor/pdfjs/standard_fonts/LiberationSans-${weight === 700 ? (style === "italic" ? "BoldItalic" : "Bold") : style === "italic" ? "Italic" : "Regular"}.ttf`, unicodeRange: undefined }];
+        ? Object.entries(ranges).filter(([r]) => !(file === "caladea" && r === "greek")).map(([r, unicodeRange]) => ({ url: asset(`/vendor/fonts/${file}-${r}-${weight}-${style}.woff2`), unicodeRange }))
+        : [{ url: asset(`/vendor/pdfjs/standard_fonts/LiberationSans-${weight === 700 ? (style === "italic" ? "BoldItalic" : "Bold") : style === "italic" ? "Italic" : "Regular"}.ttf`), unicodeRange: undefined }];
       for (const { url, unicodeRange } of sources) {
         const face = new FontFace(css, `url(${url})`, { weight: String(weight), style, unicodeRange });
         document.fonts.add(face);

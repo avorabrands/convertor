@@ -85,7 +85,7 @@ async function readAll(file: File, { onProgress, signal }: ConversionHandlers) {
       pages.push(await readPage(doc, n));
     }
     if (!pages.some((p) => p.length)) {
-      throw new ConversionError("This PDF is made of images, so there's no text to pull out. It's probably a scan. OCR can read it.", "ocr");
+      throw new ConversionError("This PDF is made of images, so there's no text to pull out. It's probably a scan. OCR can read it.", "image-to-text");
     }
     return pages;
   } finally {

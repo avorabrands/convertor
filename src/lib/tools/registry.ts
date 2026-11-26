@@ -113,7 +113,7 @@ export const tools: Tool[] = [
     statuses: ["Opening the PDF", "Separating the pages", "Saving the parts"], keywords: "extract pages separate", quick: true,
   },
   {
-    slug: "ocr", name: "OCR to Text", summary: "Read text from scans, photos and PDFs.",
+    slug: "image-to-text", name: "Image to Text (OCR)", summary: "Read text from scans, photos and PDFs.",
     category: "documents", support: "full",
     supportNote: "Reads English. Clear printed text works best; handwriting is hit and miss, so check the result.",
     accept: ["pdf", ...IMAGES], maxMB: 50, mode: "each", multiple: true,

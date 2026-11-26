@@ -1,4 +1,5 @@
 import type { Worker } from "tesseract.js";
+import { asset } from "@/config/site";
 import { baseOf, extOf } from "@/lib/files";
 import { ConversionError, type Engine } from "../types";
 import { breathe, DOCX_MIME, drawScaled, openImage, PDF_MIME, toBlob } from "./util";
@@ -6,7 +7,7 @@ import { breathe, DOCX_MIME, drawScaled, openImage, PDF_MIME, toBlob } from "./u
 export const ocr: Engine = async ({ files: [file], output }, { onProgress, signal }) => {
   onProgress(0.03, "Loading the text reader");
   const { createWorker, OEM } = await import("tesseract.js");
-  const base = `${location.origin}/vendor/tesseract`;
+  const base = `${location.origin}${asset("/vendor/tesseract")}`;
   let page = 0;
   let total = 1;
   const worker: Worker = await createWorker("eng", OEM.LSTM_ONLY, {

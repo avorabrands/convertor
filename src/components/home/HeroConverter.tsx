@@ -10,6 +10,7 @@ import { Modal } from "@/components/ui/Modal";
 import { SupportBadge } from "@/components/ui/SupportBadge";
 import { ErrorList } from "@/components/workspace/ErrorList";
 import { UploadZone } from "@/components/workspace/UploadZone";
+import { toolHref } from "@/config/site";
 import { cn } from "@/lib/cn";
 import { extOf, toneFor, unsupportedMessage } from "@/lib/files";
 import { handOff } from "@/lib/handoff";
@@ -19,8 +20,8 @@ const formats: { label: string; to: string; tools: string[] }[] = [
   { label: "PDF", to: "DOCX", tools: ["pdf-to-word", "pdf-to-jpg", "compress-pdf", "merge-pdf", "split-pdf"] },
   { label: "DOCX", to: "PDF", tools: ["word-to-pdf", "word-to-text", "file-size-reducer"] },
   { label: "PPTX", to: "PDF", tools: ["ppt-to-pdf", "file-size-reducer"] },
-  { label: "JPG", to: "PDF", tools: ["jpg-to-pdf", "image-converter", "ocr"] },
-  { label: "PNG", to: "JPG", tools: ["image-converter", "jpg-to-pdf", "ocr"] },
+  { label: "JPG", to: "PDF", tools: ["jpg-to-pdf", "image-converter", "image-to-text"] },
+  { label: "PNG", to: "JPG", tools: ["image-converter", "jpg-to-pdf", "image-to-text"] },
   { label: "XLSX", to: "CSV", tools: ["spreadsheet-converter", "excel-to-pdf", "file-size-reducer"] },
   { label: "MP3", to: "WAV", tools: ["audio-converter", "file-size-reducer"] },
   { label: "MP4", to: "MP3", tools: ["video-converter"] },
@@ -45,7 +46,7 @@ export function HeroConverter() {
   const open = (slug: string) => {
     handOff(slug, files);
     setFiles([]);
-    router.push(`/convert/${slug}`);
+    router.push(toolHref(slug));
   };
 
   return (
@@ -74,7 +75,7 @@ export function HeroConverter() {
           <p className="mt-3 flex min-h-12 flex-wrap items-center justify-center gap-x-1 text-sm text-muted sm:min-h-10" aria-live="polite">
             <span className="mr-1">{format.label} tools:</span>
             {format.tools.map((slug) => (
-              <Link key={slug} href={`/convert/${slug}`} className="rounded-md px-2 py-1.5 font-semibold text-primary-ink underline-offset-4 hover:underline">{getTool(slug)!.name}</Link>
+              <Link key={slug} href={toolHref(slug)} className="rounded-md px-2 py-1.5 font-semibold text-primary-ink underline-offset-4 hover:underline">{getTool(slug)!.name}</Link>
             ))}
           </p>
         </div>

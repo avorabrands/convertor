@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Prose } from "@/components/ui/Prose";
 import { site } from "@/config/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Terms" };
+export const metadata: Metadata = pageMetadata({ title: "Terms", description: `The short version of how to use ${site.name} fairly.`, path: "/terms" });
 
 export default function Terms() {
   return (

@@ -10,9 +10,9 @@ import { ButtonLink } from "@/components/ui/Button";
 import { quickTools, tools } from "@/lib/tools/registry";
 
 const utilities = [
-  { icon: FileCheck2, title: "Submit in the required format", text: "Convert assignments and slides to PDF, DOCX and more, so the portal accepts them the first time.", href: "/convert/word-to-pdf", link: "Word to PDF" },
-  { icon: ScanText, title: "Make scanned notes searchable", text: "OCR handwritten or printed notes into editable text. Clear print gives the best results.", href: "/convert/ocr", link: "Read text with OCR" },
-  { icon: Shrink, title: "Shrink files before uploading", text: "Compress large PDFs, slides and media for learning portals with tight limits.", href: "/convert/file-size-reducer", link: "Reduce file size" },
+  { icon: FileCheck2, title: "Submit in the required format", text: "Convert assignments and slides to PDF, DOCX and more, so the portal accepts them the first time.", href: "/word-to-pdf", link: "Word to PDF" },
+  { icon: ScanText, title: "Make scanned notes searchable", text: "OCR handwritten or printed notes into editable text. Clear print gives the best results.", href: "/image-to-text", link: "Read text with OCR" },
+  { icon: Shrink, title: "Shrink files before uploading", text: "Compress large PDFs, slides and media for learning portals with tight limits.", href: "/file-size-reducer", link: "Reduce file size" },
 ];
 
 const trust = [

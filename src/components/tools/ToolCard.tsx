@@ -1,12 +1,13 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { toolHref } from "@/config/site";
 import { SupportBadge } from "@/components/ui/SupportBadge";
 import type { Tool } from "@/lib/tools/types";
 import { ToolGlyph } from "./ToolGlyph";
 
 export function ToolCard({ tool }: { tool: Tool }) {
   return (
-    <Link href={`/convert/${tool.slug}`}
+    <Link href={toolHref(tool.slug)}
       className="group grid grid-cols-[auto_1fr] gap-x-4 rounded-card border border-line bg-surface p-4 shadow-card transition-[box-shadow,border-color] duration-200 hover:border-primary hover:shadow-lift sm:flex sm:flex-col sm:p-5">
       <span className="row-span-2 sm:flex sm:items-start sm:justify-between">
         <ToolGlyph tool={tool} />

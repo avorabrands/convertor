@@ -1,5 +1,6 @@
 import fontkit from "@pdf-lib/fontkit";
 import { PDFDocument, rgb, type PDFFont, type PDFPage } from "pdf-lib";
+import { asset } from "@/config/site";
 import { ConversionError } from "../types";
 
 export interface Run { text: string; bold?: boolean; italic?: boolean }
@@ -30,7 +31,7 @@ export class PdfWriter {
     const doc = await PDFDocument.create();
     doc.registerFontkit(fontkit);
     const load = async (style: string) => {
-      const res = await fetch(`/vendor/pdfjs/standard_fonts/LiberationSans-${style}.ttf`);
+      const res = await fetch(asset(`/vendor/pdfjs/standard_fonts/LiberationSans-${style}.ttf`));
       if (!res.ok) throw new Error("Failed to fetch font");
       return doc.embedFont(await res.arrayBuffer(), { subset: true });
     };

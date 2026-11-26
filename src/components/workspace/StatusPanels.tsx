@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/Progress";
 import type { OutputFile } from "@/lib/conversion";
 import { extOf, formatBytes, saveBlob, toneFor } from "@/lib/files";
 import { handOff } from "@/lib/handoff";
+import { toolHref } from "@/config/site";
 import { getTool } from "@/lib/tools/registry";
 
 /** Moves focus to the new state so keyboard and screen reader users land on it. */
@@ -127,7 +128,7 @@ export function FailurePanel({ failures, partial, onRetry, onReset }: {
         </div>
       </div>
       <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-        {suggestion && <ButtonLink href={`/convert/${suggestion.slug}`} onClick={() => handOff(suggestion.slug, first.files)}>Open in {suggestion.name}</ButtonLink>}
+        {suggestion && <ButtonLink href={toolHref(suggestion.slug)} onClick={() => handOff(suggestion.slug, first.files)}>Open in {suggestion.name}</ButtonLink>}
         <Button variant={suggestion ? "secondary" : "primary"} onClick={onRetry}><RotateCcw className="size-4" aria-hidden />Try again</Button>
         {!partial && <Button variant="ghost" onClick={onReset}>Choose a different file</Button>}
       </div>

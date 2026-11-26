@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Prose } from "@/components/ui/Prose";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Privacy", description: "What happens to your files, in plain language." };
+export const metadata: Metadata = pageMetadata({ title: "Privacy", description: "Your files stay on your device: what happens to them, in plain language.", path: "/privacy" });
 
 export default function Privacy() {
   return (

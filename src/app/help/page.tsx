@@ -3,12 +3,13 @@ import { faq } from "@/components/home/faq";
 import { Accordion, type AccordionItem } from "@/components/ui/Accordion";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { site } from "@/config/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Help center", description: "Fixes for common conversion problems." };
+export const metadata: Metadata = pageMetadata({ title: "Help Center", description: "Quick fixes for common conversion problems: locked PDFs, scans, old Office files, iPhone photos and more.", path: "/help" });
 
 const fixes: AccordionItem[] = [
   { q: "My PDF is password protected", a: "Open it in your PDF reader with the password, then print or save it as a new PDF without one. Convert the new copy." },
-  { q: "PDF to Word says there's no text", a: "Your PDF is probably a scan, so each page is a picture. Use OCR to Text first; it can save straight to Word." },
+  { q: "PDF to Word says there's no text", a: "Your PDF is probably a scan, so each page is a picture. Use Image to Text (OCR) first; it can save straight to Word." },
   { q: "My older .doc or .ppt file isn't accepted", a: "Open it in Word, PowerPoint or Google Docs and save it as .docx or .pptx. Those newer formats work here." },
   { q: "My iPhone photos won't open", a: "HEIC photos open in Safari but not in every browser. You can also set Settings > Camera > Formats to Most Compatible, so new photos save as JPG." },
   { q: "OCR got words wrong", a: "Take the photo straight on, in good light, with the text filling the frame. OCR reads English, and print is far more reliable than handwriting." },
