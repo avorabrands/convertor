@@ -100,14 +100,31 @@ export async function canvasBlob(canvas: HTMLCanvasElement, type: string, qualit
 
 /** Decodes with the photo's rotation applied. */
 export async function openImage(file: Blob, name: string): Promise<ImageBitmap> {
+  const heic = /\.(heic|heif)$/i.test(name);
   try {
     return await createImageBitmap(file, { imageOrientation: "from-image" });
   } catch {
-    if (/\.(heic|heif)$/i.test(name)) {
-      throw new ConversionError("This browser can't open HEIC photos. Try Safari, or set your iPhone camera to “Most Compatible” to get JPGs.");
+    if (heic) {
+      // Most browsers can't open iPhone photos, so decode them here.
+      try {
+        const { heicTo } = await import("heic-to/next");
+        const png = await heicTo({ blob: file, type: "image/png", quality: 1 });
+        return await createImageBitmap(png);
+      } catch {
+        throw new ConversionError(`"${name}" couldn't be opened. It may be damaged, or saved in a HEIC variant we can't read.`);
+      }
     }
     throw new ConversionError(`"${name}" couldn't be opened as an image. It may be damaged.`);
   }
+}
+
+/** Reads times like "1:23", "01:02:03" or "83.5" as seconds. */
+export function parseTime(text: string, label: string): number {
+  const t = text.trim();
+  if (!t) throw new ConversionError(`Enter a ${label} time, such as 0:30.`);
+  const parts = t.split(":").map(Number);
+  if (parts.some((p) => !Number.isFinite(p) || p < 0) || parts.length > 3) throw new ConversionError(`"${t}" isn't a time. Use minutes and seconds, such as 1:30.`);
+  return parts.reduce((s, p) => s * 60 + p, 0);
 }
 
 export function drawScaled(bitmap: ImageBitmap, maxSide: number, background?: string) {

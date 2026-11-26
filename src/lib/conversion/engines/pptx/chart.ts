@@ -1,5 +1,5 @@
 import { css, readColor, schemeColor, type Rgba } from "./color";
-import { fontStack } from "./fonts";
+import { fontStack } from "../fonts";
 import type { TextEnv } from "./text";
 import { attr, child, findAll, flag, kids, num } from "./xml";
 
@@ -7,8 +7,15 @@ type Ctx = CanvasRenderingContext2D;
 interface Series { name: string; cats: string[]; vals: (number | null)[]; xs: (number | null)[]; color: Rgba; points: Map<number, Rgba>; labels: "val" | "pct" | "cat" | null; format: string; line: boolean; marker: boolean }
 interface Group { type: string; dir: string; grouping: string; gap: number; overlap: number; hole: number; series: Series[] }
 
+let resolveRef: TextEnv["resolveRef"];
+
 const cache = (el: Element | null) => {
   const c = findAll(el, "strCache")[0] ?? findAll(el, "numCache")[0] ?? findAll(el, "strLit")[0] ?? findAll(el, "numLit")[0] ?? findAll(el, "lvl")[0] ?? null;
+  if (!c) {
+    const formula = findAll(el, "f")[0]?.textContent;
+    const values = formula && resolveRef ? resolveRef(formula) : null;
+    if (values) return { values, format: "General" };
+  }
   const out: string[] = [];
   for (const p of kids(c, "pt")) out[num(p, "idx") ?? out.length] = child(p, "v")?.textContent ?? "";
   const count = num(child(c, "ptCount"), "val") ?? out.length;
@@ -44,6 +51,7 @@ function niceScale(min: number, max: number, fixedMin: number | null, fixedMax: 
 
 /** Draws the common chart kinds from the values stored in the file. Returns false for kinds it can't draw. */
 export function drawChart(root: Element, w: number, h: number, env: TextEnv): boolean {
+  resolveRef = env.resolveRef;
   const { ctx, palette } = env;
   const chart = child(root, "chart");
   const plot = child(chart, "plotArea");

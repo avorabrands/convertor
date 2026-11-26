@@ -7,13 +7,14 @@ import { ToolGlyph } from "@/components/tools/ToolGlyph";
 import { Accordion } from "@/components/ui/Accordion";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { SupportBadge } from "@/components/ui/SupportBadge";
+import { StudyTool } from "@/components/study/StudyTool";
 import { Workspace } from "@/components/workspace/Workspace";
 import { toolFaqs, toolJsonLd, toolMetadata, toolSteps } from "@/lib/seo";
 import { content } from "@/lib/tools/content";
 import { categories, getTool, tools } from "@/lib/tools/registry";
 import { supportLevels } from "@/lib/tools/types";
 
-const relatedLabel: Record<string, string> = { pdf: "PDF", documents: "document", images: "image", media: "audio and video", archives: "archive and file size" };
+const relatedLabel: Record<string, string> = { pdf: "PDF", documents: "document", images: "image", media: "audio and video", archives: "archive and file size", study: "study" };
 
 type Props = { params: Promise<{ tool: string }> };
 
@@ -47,13 +48,13 @@ export default async function ToolPage({ params }: Props) {
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
               <h1 className="text-3xl font-bold sm:text-4xl">{tool.name}</h1>
-              <SupportBadge level={tool.support} />
+              {tool.kind !== "study" && <SupportBadge level={tool.support} />}
             </div>
             <p className="mt-2 text-lg text-muted">{tool.summary}</p>
-            <p className="mt-2 text-sm leading-relaxed text-muted">{tool.supportNote ?? supportLevels[tool.support].description}</p>
+            {tool.kind !== "study" && <p className="mt-2 text-sm leading-relaxed text-muted">{tool.supportNote ?? supportLevels[tool.support].description}</p>}
           </div>
         </div>
-        <Workspace key={tool.slug} tool={tool.slug} />
+        {tool.kind === "study" ? <StudyTool slug={tool.slug} /> : <Workspace key={tool.slug} tool={tool.slug} />}
       </div>
 
       <div className="mx-auto mt-20 max-w-2xl space-y-14">

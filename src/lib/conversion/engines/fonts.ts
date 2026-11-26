@@ -58,3 +58,39 @@ export async function loadFonts(names: Iterable<string>) {
   }
   await Promise.all(jobs);
 }
+
+export type FontKey = keyof typeof families;
+export const fontKey = (name: string): FontKey => match(name) ?? "arimo";
+
+/**
+ * Line metrics of the original Office fonts (ascent with line gap, descent) as fractions of the size.
+ * Word's "single" spacing is their sum: 1.22 for Calibri, 1.15 for Times New Roman and Arial.
+ */
+const METRICS: Record<FontKey, { ascent: number; descent: number }> = {
+  carlito: { ascent: 0.952, descent: 0.269 },
+  caladea: { ascent: 0.95, descent: 0.222 },
+  tinos: { ascent: 0.933, descent: 0.216 },
+  cousine: { ascent: 0.833, descent: 0.3 },
+  arimo: { ascent: 0.938, descent: 0.212 },
+};
+export const fontMetrics = (key: FontKey) => METRICS[key];
+
+/**
+ * A stack that measures with the bundled font first, so widths match the fonts embedded in PDFs.
+ * Characters the bundled font lacks (Hindi, Arabic…) fall through to the document's or the system's font.
+ */
+export function measureStack(name: string, complexScriptFont = "") {
+  const key = fontKey(name);
+  const generic = key === "tinos" || key === "caladea" ? "serif" : key === "cousine" ? "monospace" : "sans-serif";
+  const cs = complexScriptFont.replace(/["\;]/g, "");
+  return `"${families[key].css}"${cs ? `, "${cs}"` : ""}, "Nirmala UI", "Noto Sans", "Kohinoor Devanagari", "Kohinoor Telugu", ${generic}`;
+}
+
+/** TrueType files a PDF can embed for this family and style, one per character range. */
+export function pdfFontSources(key: FontKey, bold: boolean, italic: boolean): string[] {
+  const weight = bold ? 700 : 400, style = italic ? "italic" : "normal";
+  if (key === "arimo") return [asset(`/vendor/pdfjs/standard_fonts/LiberationSans-${bold ? (italic ? "BoldItalic" : "Bold") : italic ? "Italic" : "Regular"}.ttf`)];
+  return Object.keys(ranges)
+    .filter((r) => !(key === "caladea" && r === "greek"))
+    .map((r) => asset(`/vendor/fonts-ttf/${families[key].file}-${r}-${weight}-${style}.ttf`));
+}

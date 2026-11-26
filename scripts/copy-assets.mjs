@@ -36,3 +36,19 @@ for (const family of ["carlito", "tinos", "caladea", "cousine"]) {
     }
   }
 }
+
+// PDFs can't embed web fonts, so keep TrueType copies for writing real text into PDFs.
+const { decompress } = await import("wawoff2");
+const { readFile, writeFile } = await import("node:fs/promises");
+await mkdir(out("fonts-ttf"), { recursive: true });
+for (const file of await readdir(out("fonts"))) {
+  const ttf = await decompress(await readFile(out("fonts", file)));
+  await writeFile(out("fonts-ttf", file.replace(/\.woff2$/, ".ttf")), ttf);
+}
+
+// FFmpeg for video tools: the worker module and the WebAssembly core.
+await mkdir(out("ffmpeg"), { recursive: true });
+for (const file of await readdir(mod("@ffmpeg/ffmpeg/dist/esm"))) {
+  if (file.endsWith(".js")) await copyFile(mod("@ffmpeg/ffmpeg/dist/esm", file), out("ffmpeg", file));
+}
+for (const file of ["ffmpeg-core.js", "ffmpeg-core.wasm"]) await copyFile(mod("@ffmpeg/core/dist/esm", file), out("ffmpeg", file));

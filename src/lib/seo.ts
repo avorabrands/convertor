@@ -29,6 +29,13 @@ export function toolMetadata(tool: Tool): Metadata {
 export function toolFaqs(tool: Tool) {
   const c = content[tool.slug];
   const demoOnly = tool.support === "demo";
+  if (tool.kind === "study") {
+    return [
+      ...c.faqs,
+      { q: `Is the ${tool.name} free?`, a: "Yes. It's free for everyone, with no sign-up and no limits." },
+      { q: "Is what I type saved or uploaded?", a: "No. Everything runs in your browser. Nothing you type is sent anywhere." },
+    ];
+  }
   return [
     ...c.faqs,
     {
@@ -49,6 +56,8 @@ export function toolFaqs(tool: Tool) {
 }
 
 export function toolSteps(tool: Tool) {
+  const custom = content[tool.slug]?.steps;
+  if (custom) return custom;
   const many = tool.multiple;
   const first = `Choose your ${acceptLabel(tool)} ${many ? "files" : "file"}, or drop ${many ? "them" : "it"} on the page.`;
   const middle = tool.mode === "combine" && many

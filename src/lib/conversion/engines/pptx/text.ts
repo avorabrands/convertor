@@ -1,11 +1,11 @@
 import { BLACK, css, readColor, schemeColor, type Palette, type Rgba } from "./color";
-import { fontStack } from "./fonts";
+import { fontStack } from "../fonts";
 import { attr, child, findAll, flag, kids, num, pt } from "./xml";
 
 type Ctx = CanvasRenderingContext2D;
 
-/** One drawn line, kept so the PDF can carry selectable text behind the picture. */
-export interface LayerLine { text: string; size: number; width: number; m: [number, number, number, number, number, number] }
+export type { LayerLine } from "../raster-pdf";
+import type { LayerLine } from "../raster-pdf";
 
 export interface TextEnv {
   ctx: Ctx;
@@ -13,6 +13,8 @@ export interface TextEnv {
   fonts: { major: string; minor: string };
   slideNumber: number;
   layer: LayerLine[];
+  /** Reads cell values for a chart whose file stores only formulas, such as "Sheet1!$B$2:$B$9". */
+  resolveRef?: (formula: string) => string[] | null;
 }
 
 export interface TextStyle {

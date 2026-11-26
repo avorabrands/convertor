@@ -5,7 +5,7 @@ import { site } from "@/config/site";
 const link = "font-semibold text-primary-ink underline underline-offset-4";
 
 export const faq: AccordionItem[] = [
-  { q: "Which file formats can I convert?", a: <>PDF, Word, PowerPoint, Excel, CSV, common image formats, MP3, WAV, M4A and ZIP. Video to MP4 or WebM is a demo for now. The <Link href="/tools" className={link}>tools page</Link> marks each tool as full support, basic layout or demo.</> },
+  { q: "Which file formats can I convert?", a: <>PDF, Word, PowerPoint, Excel, CSV, JPG, PNG, WebP, iPhone HEIC, MP3, WAV, M4A, MP4, MOV, WebM and ZIP. There are also study tools: a word counter, citation generator, case converter and QR code maker. The <Link href="/tools" className={link}>tools page</Link> marks each tool as full support, basic layout or demo.</> },
   { q: `Is ${site.name} free for students?`, a: "Yes. Every tool here is free, without an account or a watermark. The only limit is the file size shown on each tool." },
   { q: "How long are my files stored?", a: <>They aren't stored. Conversions run in your browser, and your files are cleared when you leave the page or close the tab. Read <Link href="/privacy" className={link}>our privacy approach</Link>.</> },
   { q: "Can I convert several files at once?", a: "Yes. Add as many as you need, and they convert one after another. When they're done, download them one by one or all together as a ZIP." },

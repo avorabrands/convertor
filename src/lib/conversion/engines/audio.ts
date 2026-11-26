@@ -1,6 +1,6 @@
 import { baseOf } from "@/lib/files";
 import { ConversionError, type ConversionHandlers, type Engine } from "../types";
-import { breathe, toBlob } from "./util";
+import { breathe, parseTime, toBlob } from "./util";
 
 const RATE = 44100;
 
@@ -77,3 +77,20 @@ export const convertAudio: Engine = async ({ files: [file], output, options }, h
   const blob = output === "wav" ? encodeWav(audio, mono) : await encodeMp3(audio, Number(options.bitrate ?? 128), mono, handlers);
   return { files: [{ name: `${baseOf(file.name)}.${output}`, blob }] };
 };
+
+export const trimAudio: Engine = async ({ files: [file], output, options }, handlers) => {
+  handlers.onProgress(0.08, "Opening the audio");
+  const audio = await decodeAudio(file);
+  const start = parseTime(String(options.start ?? "0:00"), "start");
+  const end = String(options.end ?? "").trim() ? parseTime(String(options.end), "end") : audio.duration;
+  if (start >= audio.duration) throw new ConversionError(`The recording is only ${formatClock(audio.duration)} long, so it can't start at ${formatClock(start)}.`);
+  if (end <= start) throw new ConversionError("The end time has to be after the start time.");
+  const from = Math.floor(start * audio.sampleRate), to = Math.min(audio.length, Math.ceil(end * audio.sampleRate));
+  const ctx = new OfflineAudioContext(audio.numberOfChannels, to - from, audio.sampleRate);
+  const part = ctx.createBuffer(audio.numberOfChannels, to - from, audio.sampleRate);
+  for (let c = 0; c < audio.numberOfChannels; c++) part.copyToChannel(audio.getChannelData(c).subarray(from, to), c);
+  const blob = output === "wav" ? encodeWav(part, false) : await encodeMp3(part, Number(options.bitrate ?? 128), false, handlers);
+  return { files: [{ name: `${baseOf(file.name)}-trimmed.${output}`, blob }], notes: [`Kept ${formatClock(start)} to ${formatClock(Math.min(end, audio.duration))}.`] };
+};
+
+const formatClock = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;

@@ -30,11 +30,14 @@ npm run build && npm start
 
 ## What is real
 
-- **Full support:** JPG to PDF, PDF to JPG, compress, merge, split and rotate PDF, OCR (English), image, audio and spreadsheet conversion, PDF or Word to text, ZIP extract and create, file size reducer, video to MP3.
-- **Basic layout:** PPT to PDF, PDF to Word, Word to PDF, Excel to PDF. Text and structure carry over; complex layouts are simplified. The Word and Excel PDF writers cover Latin, Greek and Cyrillic, and refuse other scripts rather than produce unreadable files.
-- **Demo:** video to MP4 or WebM. Output is marked as a placeholder.
+Every tool converts the student's real file on their device. 47 tools in all.
 
-PPT to PDF (`engines/pptx/`) draws each slide on a canvas, so any script the device has fonts for works, and adds an invisible text layer for search. Covered: themes, masters, placeholders, about 80 preset shapes, freeforms, pictures, tables, SmartArt drawings, and bar, column, line, area, pie, doughnut and scatter charts. Not covered: animations, 3D, reflections and glows, EMF and WMF pictures, text columns, and other chart types (marked on the slide). Calibri, Cambria, Times and Courier use open fonts with matching widths.
+- **Full support:** Word, Excel and PPT to PDF (own layout engines in `engines/docx`, `engines/xlsx`, `engines/pptx`), all PDF tools (merge, split, compress, rotate, page numbers, watermark, password protect and unlock, delete pages, extract images, PDF to JPG/PNG/text), OCR, image tools (convert, resize, compress to KB, HEIC), audio (convert, trim), video (convert, compress, trim, GIF; FFmpeg in WebAssembly), ZIP, spreadsheets, and study tools (word counter, citations, case converter, QR codes).
+- **Basic layout:** PDF to Word. Text, styles, alignment and pictures carry over; tables and columns become plain text, because PDFs don't store them.
+
+Word to PDF and Excel to PDF write real vector text with metric-compatible open fonts (Carlito for Calibri, Tinos for Times New Roman, and so on). A page that uses a script those fonts don't cover, such as Hindi, is drawn as a 200 dpi picture with an invisible searchable layer.
+
+Licences to note: FFmpeg core is GPL-2.0-or-later and libheif (via heic-to) is LGPL-3.0; both are credited on the privacy page.
 
 Not built: accounts and share links. Their buttons explain that.
 

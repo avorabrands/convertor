@@ -8,7 +8,7 @@ export const supportLevels: Record<SupportLevel, { label: string; description: s
   demo: { label: "Demo", description: "Shows the flow with a placeholder file. Your file is not converted yet." },
 };
 
-export type Category = "pdf" | "documents" | "images" | "media" | "archives";
+export type Category = "pdf" | "documents" | "images" | "media" | "archives" | "study";
 
 export type OptionValue = string | number | boolean;
 export type OptionValues = Record<string, OptionValue>;
@@ -18,12 +18,16 @@ export type ToolOption =
   | (OptionBase & { type: "select"; default: string; choices: { value: string; label: string }[] })
   | (OptionBase & { type: "range"; default: number; min: number; max: number; step: number; unit?: string })
   | (OptionBase & { type: "toggle"; default: boolean })
-  | (OptionBase & { type: "text"; default: string; placeholder?: string });
+  | (OptionBase & { type: "text"; default: string; placeholder?: string; secret?: boolean; required?: boolean });
 
 export interface OutputFormat { value: string; label: string; support?: SupportLevel }
 
 export interface Tool {
   slug: string;
+  /** Study tools have their own interface instead of a file workspace. */
+  kind?: "file" | "study";
+  /** Engine to run, when it differs from the slug (format shortcut pages share engines). */
+  engine?: string;
   name: string;
   /** One line for cards. */
   summary: string;

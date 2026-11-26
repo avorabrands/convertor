@@ -11,6 +11,8 @@ export async function openPdf(file: Blob): Promise<PDFDocumentProxy> {
     cMapPacked: true,
     standardFontDataUrl: `${base}/standard_fonts/`,
     wasmUrl: `${base}/wasm/`,
+    // Keeps font names, which is how bold and italic text is recognised.
+    fontExtraProperties: true,
   }).promise as unknown as Promise<PDFDocumentProxy>;
 }
 
