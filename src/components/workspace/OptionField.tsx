@@ -44,7 +44,7 @@ export function OptionField({ option: o, value, onChange }: { option: ToolOption
         <input id={id} type="range" min={o.min} max={o.max} step={o.step} value={Number(value)} onChange={(e) => onChange(Number(e.target.value))} className="h-8 w-full accent-primary" />
       ) : (
         <input id={id} type={o.secret ? "password" : "text"} value={String(value)} placeholder={o.placeholder} onChange={(e) => onChange(e.target.value)}
-          aria-describedby={o.hint ? `${id}-hint` : undefined} className={fieldClass} autoComplete={o.secret ? "new-password" : "off"} required={o.required} />
+          aria-describedby={o.hint ? `${id}-hint` : undefined} className={fieldClass} autoComplete={o.secret ? "new-password" : "off"} required={o.required} inputMode={o.numeric ? "decimal" : undefined} />
       )}
       {o.hint && <p id={`${id}-hint`} className="mt-1.5 text-sm text-muted">{o.hint}</p>}
     </div>

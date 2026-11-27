@@ -15,6 +15,17 @@ import { FailurePanel, ProcessingPanel, SuccessPanel } from "./StatusPanels";
 import { UploadZone } from "./UploadZone";
 
 /** Takes a slug because tool definitions hold functions, which can't cross from server to client. */
+/** Pairs neighbouring half-width options, such as a size and its unit. */
+function groupHalves<T extends { half?: boolean }>(list: T[]): T[][] {
+  const out: T[][] = [];
+  for (const o of list) {
+    const last = out.at(-1);
+    if (o.half && last?.length === 1 && last[0].half) last.push(o);
+    else out.push([o]);
+  }
+  return out;
+}
+
 export function Workspace({ tool: slug }: { tool: string }) {
   const tool = getTool(slug)!;
   const c = useConverter(tool);
@@ -91,7 +102,9 @@ export function Workspace({ tool: slug }: { tool: string }) {
         <form className="space-y-5 rounded-card border border-line bg-surface p-5 shadow-card sm:p-7"
           onSubmit={(e) => { e.preventDefault(); if (short <= 0) void c.run(); }}>
           {tool.outputs.length > 1 && <SelectField label="Convert to" value={c.output} onChange={c.setOutput} choices={tool.outputs} />}
-          {primary.map((o) => <OptionField key={o.key} option={o} value={c.options[o.key]} onChange={(v) => c.setOption(o.key, v)} />)}
+          {groupHalves(primary).map((g) => g.length > 1
+            ? <div key={g[0].key} className="grid grid-cols-[2fr_1fr] gap-3">{g.map((o) => <OptionField key={o.key} option={o} value={c.options[o.key]} onChange={(v) => c.setOption(o.key, v)} />)}</div>
+            : <OptionField key={g[0].key} option={g[0]} value={c.options[g[0].key]} onChange={(v) => c.setOption(g[0].key, v)} />)}
           {advanced.length > 0 && (
             <details className="group rounded-2xl border border-line">
               <summary className="flex list-none items-center justify-between px-4 py-3 text-sm font-semibold hover:text-primary-ink [&::-webkit-details-marker]:hidden">

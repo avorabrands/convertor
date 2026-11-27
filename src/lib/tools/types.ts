@@ -13,12 +13,12 @@ export type Category = "pdf" | "documents" | "images" | "media" | "archives" | "
 export type OptionValue = string | number | boolean;
 export type OptionValues = Record<string, OptionValue>;
 
-interface OptionBase { key: string; label: string; hint?: string; showIf?: (v: OptionValues, output: string) => boolean }
+interface OptionBase { key: string; label: string; hint?: string; showIf?: (v: OptionValues, output: string) => boolean; /** Sits beside the next half-width option. */ half?: boolean }
 export type ToolOption =
   | (OptionBase & { type: "select"; default: string; choices: { value: string; label: string }[] })
   | (OptionBase & { type: "range"; default: number; min: number; max: number; step: number; unit?: string })
   | (OptionBase & { type: "toggle"; default: boolean })
-  | (OptionBase & { type: "text"; default: string; placeholder?: string; secret?: boolean; required?: boolean });
+  | (OptionBase & { type: "text"; default: string; placeholder?: string; secret?: boolean; required?: boolean; /** Opens the number keypad on phones. */ numeric?: boolean });
 
 export interface OutputFormat { value: string; label: string; support?: SupportLevel }
 
