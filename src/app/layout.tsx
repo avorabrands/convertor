@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { themeScript } from "@/components/layout/theme";
 import { ToastProvider } from "@/components/ui/Toast";
 import { JsonLd } from "@/components/ui/JsonLd";
-import { site } from "@/config/site";
+import { asset, site } from "@/config/site";
 import { pageMetadata, siteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -23,9 +23,19 @@ export const metadata: Metadata = {
   }),
   title: { default: `Free File Converter for Students: PDF, Word, PPT, JPG | ${site.name}`, template: `%s | ${site.name}` },
   robots: { index: true, follow: true },
+  // Search engines look for /favicon.ico and PNG sizes in multiples of 48 px; browsers can use the SVG.
+  icons: {
+    icon: [
+      { url: asset("/favicon.ico"), sizes: "48x48" },
+      { url: asset("/icons/icon.svg"), type: "image/svg+xml" },
+      { url: asset("/icons/icon-96.png"), sizes: "96x96", type: "image/png" },
+      { url: asset("/icons/icon-192.png"), sizes: "192x192", type: "image/png" },
+    ],
+    apple: { url: asset("/icons/apple-touch-icon.png"), sizes: "180x180" },
+  },
   formatDetection: { telephone: false },
 };
-export const viewport: Viewport = { themeColor: "#f8f8f5" };
+export const viewport: Viewport = { themeColor: "#3d48d3" };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
