@@ -16,6 +16,12 @@ export const site = {
     "Free online file converter for students. Convert PDF, Word, PowerPoint, Excel, images and audio in your browser, with no sign-up, no watermark and no uploads.",
   footerNote: "Made for students who have better things to do than fight file formats.",
   company: { name: "Avora Brands", url: "https://www.avorabrands.in" },
+  /** The same profiles the Avora Brands website links to. */
+  social: {
+    instagram: "https://www.instagram.com/avorabrands",
+    linkedin: "https://www.linkedin.com/company/124923992/",
+    whatsapp: `https://wa.me/919019440645?text=${encodeURIComponent("Hi Avora Brands! I'm writing about Avora Convertly.")}`,
+  },
   /** Full public address including any base path, without a trailing slash. */
   url: `${url}${basePath && !url.endsWith(basePath) ? basePath : ""}`,
   basePath,

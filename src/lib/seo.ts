@@ -119,5 +119,6 @@ export const siteJsonLd = (): Json[] => [
     "@type": "Organization",
     name: site.company.name,
     url: site.company.url,
+    sameAs: [site.social.instagram, site.social.linkedin],
   },
 ];

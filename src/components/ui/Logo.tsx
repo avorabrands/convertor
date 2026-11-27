@@ -13,7 +13,7 @@ export function Logo() {
         </g>
       </svg>
       <span className="whitespace-nowrap">
-        {rest.length ? <><span className="font-semibold text-muted">{brand}</span> {rest.join(" ")}</> : brand}
+        {rest.length ? <>{brand} {rest.join(" ")}</> : brand}
       </span>
     </Link>
   );
